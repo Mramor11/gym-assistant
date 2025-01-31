@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/gym-assistant/static/css/main.1c596e78.css",
-    "main.js": "/gym-assistant/static/js/main.78cf8c63.js",
+    "main.js": "/gym-assistant/static/js/main.5f3dcbd4.js",
     "static/js/488.3a5ed94f.chunk.js": "/gym-assistant/static/js/488.3a5ed94f.chunk.js",
     "index.html": "/gym-assistant/index.html",
     "main.1c596e78.css.map": "/gym-assistant/static/css/main.1c596e78.css.map",
-    "main.78cf8c63.js.map": "/gym-assistant/static/js/main.78cf8c63.js.map",
+    "main.5f3dcbd4.js.map": "/gym-assistant/static/js/main.5f3dcbd4.js.map",
     "488.3a5ed94f.chunk.js.map": "/gym-assistant/static/js/488.3a5ed94f.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.1c596e78.css",
-    "static/js/main.78cf8c63.js"
+    "static/js/main.5f3dcbd4.js"
   ]
 }
