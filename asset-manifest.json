@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/gym-assistant/static/css/main.e51097e5.css",
-    "main.js": "/gym-assistant/static/js/main.5f3dcbd4.js",
+    "main.css": "/gym-assistant/static/css/main.e69dd914.css",
+    "main.js": "/gym-assistant/static/js/main.d2d12c51.js",
     "static/js/488.3a5ed94f.chunk.js": "/gym-assistant/static/js/488.3a5ed94f.chunk.js",
+    "static/media/logo.svg": "/gym-assistant/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/gym-assistant/index.html",
-    "main.e51097e5.css.map": "/gym-assistant/static/css/main.e51097e5.css.map",
-    "main.5f3dcbd4.js.map": "/gym-assistant/static/js/main.5f3dcbd4.js.map",
+    "main.e69dd914.css.map": "/gym-assistant/static/css/main.e69dd914.css.map",
+    "main.d2d12c51.js.map": "/gym-assistant/static/js/main.d2d12c51.js.map",
     "488.3a5ed94f.chunk.js.map": "/gym-assistant/static/js/488.3a5ed94f.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e51097e5.css",
-    "static/js/main.5f3dcbd4.js"
+    "static/css/main.e69dd914.css",
+    "static/js/main.d2d12c51.js"
   ]
 }
