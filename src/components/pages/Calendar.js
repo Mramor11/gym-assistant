@@ -18,71 +18,24 @@ function Calendar() {
         }
     }, []);
 
-    const updateStorage = (updatedData) => {
-        setData(updatedData);
-        localStorage.setItem("nutritionData", JSON.stringify(updatedData));
-    };
-
     return (
-        <div className="calendar-container">
-            {/* Контейнер "Today's Intake" */}
-            <div className="intake-summary">
-                <h2>Today's Intake</h2>
-                <div className="intake-labels">
-                    <span>Calories</span>
-                    <span>Proteins</span>
-                    <span>Fats</span>
-                    <span>Carbs</span>
-                    <span>Water</span>
-                </div>
-                <div className="intake-values">
-                    <span>{data.calories} kcal</span>
-                    <span>{data.protein} g</span>
-                    <span>{data.fat} g</span>
-                    <span>{data.carbs} g</span>
-                    <span>{(data.water / 1000).toFixed(1)} L</span>
-                </div>
-            </div>
-
-            {/* Контейнер с прогресс-барами */}
-            <div className="progress-container">
-                <h3>Progress</h3>
-                <div className="progress-bar">
-                    <span>Calories</span>
-                    <div className="progress">
-                        <div className="fill" style={{ width: `${(data.calories / 2500) * 100}%` }}></div>
-                    </div>
-                </div>
-                <div className="progress-bar">
-                    <span>Protein</span>
-                    <div className="progress">
-                        <div className="fill" style={{ width: `${(data.protein / 100) * 100}%` }}></div>
-                    </div>
-                </div>
-                <div className="progress-bar">
-                    <span>Fat</span>
-                    <div className="progress">
-                        <div className="fill" style={{ width: `${(data.fat / 80) * 100}%` }}></div>
-                    </div>
-                </div>
-                <div className="progress-bar">
-                    <span>Carbs</span>
-                    <div className="progress">
-                        <div className="fill" style={{ width: `${(data.carbs / 300) * 100}%` }}></div>
-                    </div>
-                </div>
-                <div className="progress-bar">
-                    <span>Water</span>
-                    <div className="progress">
-                        <div className="fill" style={{ width: `${(data.water / 3000) * 100}%` }}></div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Контейнер для ввода значений (оставляем пустым) */}
-            <div className="input-container">
-                <h3>Input Section (Coming Soon)</h3>
-            </div>
+        <div className="calendar-wrapper">
+            <h2>Test Content (Scroll Down ⬇️)</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aliquet turpis nec neque tincidunt, eu euismod velit tempor. Praesent at diam sed nisi vulputate posuere.</p>
+            <p>Vivamus eget orci eget tortor gravida dictum. Morbi aliquet odio nec urna pellentesque, a imperdiet libero consequat.</p>
+            <p>Sed commodo nisi sit amet felis accumsan, nec dictum erat tincidunt. Etiam nec tincidunt turpis. Fusce volutpat congue leo, et sodales justo tincidunt id.</p>
+            <p>Aliquam erat volutpat. Suspendisse vel nisl sem. Sed ultricies erat id libero dictum, a consequat felis fringilla.</p>
+            <p>Morbi malesuada neque nec sapien feugiat, ut volutpat turpis lacinia. Duis euismod felis id urna faucibus, at venenatis elit tincidunt.</p>
+            <p>Pellentesque nec orci a nisi efficitur luctus. Nulla id velit ligula. Etiam et tristique ligula, eget tempor orci.</p>
+            <p>Fusce scelerisque justo at lorem dapibus, at vulputate dui euismod. Sed sagittis erat in enim dapibus, sed volutpat erat tincidunt.</p>
+            <p>Duis consequat felis eget turpis malesuada, nec laoreet lacus lacinia. Morbi sed dolor a magna ultrices aliquet.</p>
+            <p>Integer a justo in dui accumsan interdum. Vestibulum dictum, metus non ultricies aliquet, ligula eros dapibus elit, ut dictum lectus odio ac leo.</p>
+            <p>Sed euismod nisi a lectus tincidunt, sed euismod nisi congue. Vivamus auctor ligula et sapien tincidunt, euismod accumsan quam vehicula.</p>
+            <p>Nam sagittis nisl nec augue molestie, eget vehicula odio viverra. Phasellus ullamcorper libero id orci dictum, sed ultrices arcu malesuada.</p>
+            <p>Maecenas id elit ac odio blandit convallis. In pharetra odio ut nisl tristique, sit amet tempor metus rhoncus.</p>
+            <p>Vestibulum volutpat purus et libero interdum, ac aliquet mi cursus. Etiam id magna a dolor ultrices interdum.</p>
+            <p>Quisque at lorem sed risus tincidunt condimentum. Duis dictum risus eu enim tempus, ut euismod magna fermentum.</p>
+            <div className="bottom-space"></div>
         </div>
     );
 }
