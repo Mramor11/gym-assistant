@@ -26,11 +26,18 @@ function App() {
     }, []);
 
     useEffect(() => {
-    document.body.style.overflow = "hidden"; // Отключаем общий скролл
-    document.querySelector(".calendar-wrapper").style.overflowY = "auto"; // Включаем скролл только в разделе
+    const disableBodyScroll = (e) => {
+        if (!document.querySelector(".calendar-wrapper")?.contains(e.target)) {
+            e.preventDefault();
+        }
+    };
+
+    document.body.style.overflow = "hidden"; // 🔒 Запрещаем скроллинг в остальной части приложения
+    document.addEventListener("touchmove", disableBodyScroll, { passive: false });
 
     return () => {
-        document.body.style.overflow = ""; // Возвращаем скролл обратно при выходе
+        document.body.style.overflow = ""; // 🔓 Возвращаем скролл обратно при выходе
+        document.removeEventListener("touchmove", disableBodyScroll);
     };
 }, []);
 
