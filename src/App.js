@@ -34,18 +34,6 @@ function App() {
         };
     }, []);
 
-    // Функция для обработки виброотклика
-    const handleTabChange = (tab) => {
-        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-            if (activeTab === tab) {
-                window.Telegram.WebApp.HapticFeedback.selectionChanged();
-            } else {
-                window.Telegram.WebApp.HapticFeedback.impactOccurred("medium");
-            }
-        }
-        setActiveTab(tab);
-    };
-
     const getIndicatorPosition = () => {
         switch (activeTab) {
             case "calendar":
@@ -72,16 +60,16 @@ function App() {
             </main>
 
             {/* Нижняя панель навигации */}
-            <nav className="bottom-nav">
+            <nav className="tab-bar">
                 <div className="active-indicator" style={{ left: getIndicatorPosition() }}></div>
 
-                <button className={activeTab === "calendar" ? "active" : ""} onClick={() => handleTabChange("calendar")}>
+                <button className={activeTab === "calendar" ? "active" : ""} onClick={() => setActiveTab("calendar")}>
                     <img src={`${process.env.PUBLIC_URL}/icons/calendar.svg`} alt="Calendar" className="button-icon" />
                 </button>
-                <button className={activeTab === "dumbbell" ? "active" : ""} onClick={() => handleTabChange("dumbbell")}>
+                <button className={activeTab === "dumbbell" ? "active" : ""} onClick={() => setActiveTab("dumbbell")}>
                     <img src={`${process.env.PUBLIC_URL}/icons/dumbbell.svg`} alt="Dumbbell" className="button-icon" />
                 </button>
-                <button className={activeTab === "settings" ? "active" : ""} onClick={() => handleTabChange("settings")}>
+                <button className={activeTab === "settings" ? "active" : ""} onClick={() => setActiveTab("settings")}>
                     <img src={`${process.env.PUBLIC_URL}/icons/settings.svg`} alt="Settings" className="button-icon" />
                 </button>
             </nav>
