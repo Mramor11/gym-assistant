@@ -7,6 +7,25 @@ import Settings from "./components/pages/Settings";
 
 function App() {
     const [activeTab, setActiveTab] = useState("calendar");
+    const [isTelegramAvailable, setIsTelegramAvailable] = useState(false);
+
+    useEffect(() => {
+        // Принудительно загружаем Telegram API
+        const script = document.createElement("script");
+        script.src = "https://telegram.org/js/telegram-web-app.js";
+        script.async = true;
+        script.onload = () => {
+            if (window.Telegram && window.Telegram.WebApp) {
+                console.log("✅ Telegram API загружен!", window.Telegram.WebApp);
+                window.Telegram.WebApp.ready();
+                window.Telegram.WebApp.expand();
+                setIsTelegramAvailable(true);
+            } else {
+                console.warn("❌ Telegram API не загрузился!");
+            }
+        };
+        document.body.appendChild(script);
+    }, []);
 
     useEffect(() => {
         const preventScroll = (e) => e.preventDefault();
@@ -16,59 +35,6 @@ function App() {
             document.removeEventListener("touchmove", preventScroll);
         };
     }, []);
-
-    useEffect(() => {
-        if (window.Telegram && window.Telegram.WebApp) {
-            console.log("✅ Telegram WebApp API доступен:", window.Telegram.WebApp);
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
-        } else {
-            console.warn("❌ Telegram WebApp API недоступен!");
-        }
-    }, []);
-
-    // 🔥 Новый Haptic Feedback (копирует @DurovCapsBot)
-    const triggerFeedback = (type = "impact", style = "medium") => {
-        if (!window.Telegram || !window.Telegram.WebApp) {
-            console.warn("❌ Telegram WebApp API не найден!");
-            return;
-        }
-
-        const webAppVersion = window.Telegram.WebApp.version;
-        const versionAtLeast = (minVersion) => {
-            return parseFloat(webAppVersion) >= parseFloat(minVersion);
-        };
-
-        if (!versionAtLeast("6.1")) {
-            console.warn(`[Telegram.WebApp] HapticFeedback не поддерживается в версии ${webAppVersion}`);
-            return;
-        }
-
-        let params;
-        if (type === "impact") {
-            params = { type: "impact", impact_style: style };
-        } else if (type === "notification") {
-            params = { type: "notification", notification_type: style };
-        } else if (type === "selection_change") {
-            params = { type: "selection_change" };
-        } else {
-            console.error("[Telegram.WebApp] Некорректный тип Haptic Feedback", type);
-            return;
-        }
-
-        if (window.Telegram.WebApp.platform === "ios") {
-            window.Telegram.WebApp.HapticFeedback.impactOccurred(style);
-        } else {
-            window.Telegram.WebApp.sendData("web_app_trigger_haptic_feedback", params);
-        }
-    };
-
-    const handleTabChange = (tab) => {
-        if (tab !== activeTab) {
-            setActiveTab(tab);
-            setTimeout(() => triggerFeedback("impact", "medium"), 50);
-        }
-    };
 
     const getIndicatorPosition = () => {
         switch (activeTab) {
@@ -85,24 +51,36 @@ function App() {
 
     return (
         <div className="app">
+            {/* Фоновая анимация */}
             <BackgroundParticles />
 
+            {/* Блок статуса Telegram API */}
+            <div className="status">
+                {isTelegramAvailable ? (
+                    <p className="status-text">✅ Telegram API работает!</p>
+                ) : (
+                    <p className="status-text error">❌ Telegram API не загружен!</p>
+                )}
+            </div>
+
+            {/* Контент приложения */}
             <main className="scrollable-content">
                 {activeTab === "calendar" && <Calendar />}
                 {activeTab === "dumbbell" && <Dumbbell />}
                 {activeTab === "settings" && <Settings />}
             </main>
 
+            {/* Нижняя панель навигации */}
             <nav className="bottom-nav">
                 <div className="active-indicator" style={{ left: getIndicatorPosition() }}></div>
 
-                <button className={activeTab === "calendar" ? "active" : ""} onClick={() => handleTabChange("calendar")}>
+                <button className={activeTab === "calendar" ? "active" : ""} onClick={() => setActiveTab("calendar")}>
                     <img src={`${process.env.PUBLIC_URL}/icons/calendar.svg`} alt="Calendar" className="button-icon" />
                 </button>
-                <button className={activeTab === "dumbbell" ? "active" : ""} onClick={() => handleTabChange("dumbbell")}>
+                <button className={activeTab === "dumbbell" ? "active" : ""} onClick={() => setActiveTab("dumbbell")}>
                     <img src={`${process.env.PUBLIC_URL}/icons/dumbbell.svg`} alt="Dumbbell" className="button-icon" />
                 </button>
-                <button className={activeTab === "settings" ? "active" : ""} onClick={() => handleTabChange("settings")}>
+                <button className={activeTab === "settings" ? "active" : ""} onClick={() => setActiveTab("settings")}>
                     <img src={`${process.env.PUBLIC_URL}/icons/settings.svg`} alt="Settings" className="button-icon" />
                 </button>
             </nav>
