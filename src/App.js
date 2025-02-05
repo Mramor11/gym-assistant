@@ -7,7 +7,6 @@ import Settings from "./components/pages/Settings";
 
 function App() {
     const [activeTab, setActiveTab] = useState("calendar");
-    const [isTelegramAvailable, setIsTelegramAvailable] = useState(false);
 
     useEffect(() => {
         // Принудительно загружаем Telegram API
@@ -19,7 +18,6 @@ function App() {
                 console.log("✅ Telegram API загружен!", window.Telegram.WebApp);
                 window.Telegram.WebApp.ready();
                 window.Telegram.WebApp.expand();
-                setIsTelegramAvailable(true);
             } else {
                 console.warn("❌ Telegram API не загрузился!");
             }
@@ -53,15 +51,6 @@ function App() {
         <div className="app">
             {/* Фоновая анимация */}
             <BackgroundParticles />
-
-            {/* Блок статуса Telegram API */}
-            <div className="status">
-                {isTelegramAvailable ? (
-                    <p className="status-text">✅ Telegram API работает!</p>
-                ) : (
-                    <p className="status-text error">❌ Telegram API не загружен!</p>
-                )}
-            </div>
 
             {/* Контент приложения */}
             <main className="scrollable-content">
