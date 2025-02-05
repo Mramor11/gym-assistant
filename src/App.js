@@ -34,6 +34,27 @@ function App() {
         };
     }, []);
 
+    // Функция для виброотклика
+    const triggerHapticFeedback = () => {
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+            try {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred("medium");
+            } catch (error) {
+                console.warn("⚠️ Виброотклик недоступен", error);
+            }
+        } else {
+            console.warn("❌ Telegram WebApp Haptic API не поддерживается");
+        }
+    };
+
+    // Функция переключения вкладок с виброоткликом
+    const handleTabChange = (tab) => {
+        if (tab !== activeTab) {
+            setActiveTab(tab);
+            triggerHapticFeedback();
+        }
+    };
+
     const getIndicatorPosition = () => {
         switch (activeTab) {
             case "calendar":
@@ -63,13 +84,13 @@ function App() {
             <nav className="tab-bar">
                 <div className="active-indicator" style={{ left: getIndicatorPosition() }}></div>
 
-                <button className={activeTab === "calendar" ? "active" : ""} onClick={() => setActiveTab("calendar")}>
+                <button className={activeTab === "calendar" ? "active" : ""} onClick={() => handleTabChange("calendar")}>
                     <img src={`${process.env.PUBLIC_URL}/icons/calendar.svg`} alt="Calendar" className="button-icon" />
                 </button>
-                <button className={activeTab === "dumbbell" ? "active" : ""} onClick={() => setActiveTab("dumbbell")}>
+                <button className={activeTab === "dumbbell" ? "active" : ""} onClick={() => handleTabChange("dumbbell")}>
                     <img src={`${process.env.PUBLIC_URL}/icons/dumbbell.svg`} alt="Dumbbell" className="button-icon" />
                 </button>
-                <button className={activeTab === "settings" ? "active" : ""} onClick={() => setActiveTab("settings")}>
+                <button className={activeTab === "settings" ? "active" : ""} onClick={() => handleTabChange("settings")}>
                     <img src={`${process.env.PUBLIC_URL}/icons/settings.svg`} alt="Settings" className="button-icon" />
                 </button>
             </nav>
