@@ -26,13 +26,13 @@ function App() {
     }, []);
 
     useEffect(() => {
-        const preventScroll = (e) => e.preventDefault();
-        document.addEventListener("touchmove", preventScroll, { passive: false });
+    document.body.style.overflow = "hidden"; // Отключаем общий скролл
+    document.querySelector(".calendar-wrapper").style.overflowY = "auto"; // Включаем скролл только в разделе
 
-        return () => {
-            document.removeEventListener("touchmove", preventScroll);
-        };
-    }, []);
+    return () => {
+        document.body.style.overflow = ""; // Возвращаем скролл обратно при выходе
+    };
+}, []);
 
     // Функция для виброотклика
     const triggerHapticFeedback = () => {
