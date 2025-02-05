@@ -8,9 +8,11 @@ function BackgroundParticles() {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");
 
+        // Устанавливаем размер холста
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
+        // Создаём массив частиц
         const particles = [];
         const numParticles = 50;
 

@@ -37,7 +37,11 @@ function App() {
     // Функция для обработки виброотклика
     const handleTabChange = (tab) => {
         if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-            window.Telegram.WebApp.HapticFeedback.impactOccurred("medium");
+            if (activeTab === tab) {
+                window.Telegram.WebApp.HapticFeedback.selectionChanged();
+            } else {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred("medium");
+            }
         }
         setActiveTab(tab);
     };
