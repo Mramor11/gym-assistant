@@ -1,0 +1,121 @@
+.calendar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: white;
+    width: 100%;
+    height: calc(100vh - 80px); /* Ограничиваем зону экрана, чтобы не заходила на панель */
+    overflow-y: auto; /* Добавляем прокрутку, если контент выходит за границы */
+}
+
+/* Контейнер "Today's Intake" */
+.intake-summary {
+    background: rgba(20, 20, 20, 0.9);
+    padding: 15px;
+    width: 90%;
+    max-width: 500px; /* Фиксируем ширину */
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Заголовок */
+.intake-summary h2 {
+    margin-bottom: 10px;
+}
+
+/* Ряд с названиями показателей */
+.intake-labels {
+    display: flex;
+    justify-content: space-around; /* 🔥 Равномерное распределение */
+    font-weight: bold;
+    margin-bottom: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Выравниваем названия показателей */
+.intake-labels span {
+    flex: 1;
+    text-align: center;
+}
+
+/* Ряд со значениями */
+.intake-values {
+    display: flex;
+    justify-content: space-around; /* 🔥 Равномерное распределение */
+    font-size: 18px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Выравниваем значения показателей */
+.intake-values span {
+    flex: 1;
+    text-align: center;
+}
+
+/* Контейнер с прогресс-барами */
+.progress-container {
+    background: rgba(30, 30, 30, 0.9);
+    padding: 15px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Прогресс-бары */
+.progress-bar {
+    margin: 10px 0;
+}
+
+.progress-bar span {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #444;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.fill {
+    height: 100%;
+    background: #00aaff;
+    transition: width 0.3s ease-in-out;
+}
+
+/* Контейнер ввода (пока пустой) */
+.input-container {
+    background: rgba(40, 40, 40, 0.9);
+    padding: 15px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 🔥 Ограничиваем зону экрана панелью навигации */
+.bottom-nav {
+    position: fixed;
+    bottom: 20px;
+    width: 230px;
+    height: 50px;
+    background: #141414;
+    border-radius: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+}

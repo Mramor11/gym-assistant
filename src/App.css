@@ -1,0 +1,130 @@
+/* Полное покрытие экрана */
+html, body {
+    height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+    font-family: "Arial", sans-serif;
+    background: #000;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: none;
+}
+
+/* Отключение выделения текста */
+* {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* Главный контейнер */
+.app {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* Контент */
+.scrollable-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+/* 🔥 Исправляем центрирование панели навигации */
+.bottom-nav {
+    width: 230px; /* Фиксированная ширина */
+    height: 50px;
+    background: #141414;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%); /* 🔥 Центрируем панель */
+    border-radius: 60px;
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.2);
+    z-index: 3;
+}
+
+/* Активный индикатор */
+.active-indicator {
+    position: absolute;
+    bottom: 0;
+    width: 33.33%;
+    height: 100%;
+    background: #2c2c2c;
+    border-radius: 50px;
+    transition: left 0.3s ease-in-out;
+}
+
+/* Кнопки меню */
+.bottom-nav button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    padding: 0;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 4;
+}
+
+/* Исправляем центрирование кнопок */
+.nav-icons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    padding: 0 10px; /* 🔥 Равномерное расстояние между иконками */
+}
+
+/* Стили для иконок */
+.button-icon {
+    width: 30px;
+    height: 30px;
+    filter: brightness(0.7);
+    transition: filter 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Выделенная кнопка */
+.bottom-nav button.active .button-icon {
+    filter: brightness(2) contrast(1.2);
+    transform: scale(1.1);
+}
+
+/* Фон частиц */
+.background-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
