@@ -26,18 +26,19 @@ function App() {
     }, []);
 
     useEffect(() => {
-    const disableBodyScroll = (e) => {
-        if (!document.querySelector(".calendar-wrapper")?.contains(e.target)) {
-            e.preventDefault();
+    const preventScroll = (event) => {
+        const calendarWrapper = document.querySelector(".calendar-wrapper");
+        if (!calendarWrapper || !calendarWrapper.contains(event.target)) {
+            event.preventDefault();
         }
     };
 
-    document.body.style.overflow = "hidden"; // 🔒 Запрещаем скроллинг в остальной части приложения
-    document.addEventListener("touchmove", disableBodyScroll, { passive: false });
+    document.body.style.overflow = "hidden"; // Запрещаем скроллинг всей страницы
+    document.addEventListener("touchmove", preventScroll, { passive: false });
 
     return () => {
-        document.body.style.overflow = ""; // 🔓 Возвращаем скролл обратно при выходе
-        document.removeEventListener("touchmove", disableBodyScroll);
+        document.body.style.overflow = ""; // Восстанавливаем прокрутку при выходе
+        document.removeEventListener("touchmove", preventScroll);
     };
 }, []);
 
