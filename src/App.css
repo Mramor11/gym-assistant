@@ -47,6 +47,21 @@ html, body {
     z-index: 2;
 }
 
+/* Скрытие скроллбара для WebKit (Chrome, Safari) */
+.scrollable-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Скрытие скроллбара для Firefox */
+.scrollable-container {
+    scrollbar-width: none;
+}
+
+/* Скрытие скроллбара для IE/Edge */
+.scrollable-container {
+    -ms-overflow-style: none;
+}
+
 /* 🔥 Контейнер с контентом внутри Calendar (ограничение области) */
 .calendar-wrapper {
     display: flex;

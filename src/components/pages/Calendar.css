@@ -1,37 +1,28 @@
-/* 🔲 Ограниченная область контента (только здесь должен работать скролл) */
+/* Ограниченный контейнер с прокруткой */
+/* Основной контейнер календаря */
 .calendar-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     width: 90%;
     max-width: 600px;
-    height: calc(100vh - 220px); /* Высота с учетом отступа от панели */
-    margin-top: 10px;
-    padding: 15px;
-    background: rgba(20, 20, 20, 0.9);
+    height: calc(105vh - 220px); /* Оставляем корректную высоту */
+    background: rgba(20, 20, 20, 0.8);
     border-radius: 15px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-
-    overflow-y: auto !important; /* 💡 Включаем вертикальный скролл */
-    -webkit-overflow-scrolling: touch !important; /* 💡 Поддержка плавного скролла на iOS */
-    touch-action: auto !important; /* 💡 Разрешаем скроллинг только внутри контейнера */
-    overscroll-behavior: contain;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Скрываем скроллбар (Firefox) */
+    -ms-overflow-style: none;
+    padding: 10px;
+    position: relative;
+    margin-top: -40px; /* 🔼 Поднимаем вверх */
 }
 
-/* 🎨 Стили для скролла */
+/* Полностью скрываем скроллбар в Chrome, Safari, Edge */
 .calendar-wrapper::-webkit-scrollbar {
-    width: 5px;
+    width: 0px;
+    height: 0px;
+    display: none;
 }
 
-.calendar-wrapper::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 5px;
-}
-
-/* 🚀 Исправляем нижний отступ, чтобы не закрывало панель */
+/* Отступ снизу для корректного отображения */
 .bottom-space {
-    height: 100px; /* Запас перед панелью навигации */
-    flex-shrink: 0;
+    height: 30px;
 }
