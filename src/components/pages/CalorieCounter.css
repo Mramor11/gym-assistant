@@ -1,0 +1,90 @@
+.calorie-counter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #101010;
+    border-radius: 20px;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    margin: auto;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    align-self: flex-start;
+    margin-top: 10px;
+}
+
+/* Контейнер для центрального прогресса и двух боковых элементов */
+.main-progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Основной круг */
+.main-circle {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Текст в центре круга */
+.main-text {
+    position: absolute;
+    text-align: center;
+}
+
+.main-text h2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.main-text p {
+    font-size: 14px;
+    color: #bbb;
+}
+
+/* Supplied & Burned (Теперь на одной линии с кругом) */
+.calories-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: 80px;
+}
+
+.supplied h3, .burned h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.supplied span, .burned span {
+    font-size: 18px;
+    color: #4ade80;
+}
+
+.burned span {
+    color: #f87171;
+}
+
+/* Блок с макронутриентами (Теперь они идут в один ряд) */
+.macronutrients {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.macro {
+    text-align: center;
+}
+
+.macro p {
+    font-size: 12px;
+    color: #bbb;
+    margin-top: 5px;
+}

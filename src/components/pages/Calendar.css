@@ -1,28 +1,24 @@
-/* Ограниченный контейнер с прокруткой */
-/* Основной контейнер календаря */
 .calendar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 🔥 Размещаем элементы от верха */
     width: 90%;
     max-width: 600px;
     height: calc(105vh - 220px); /* Оставляем корректную высоту */
-    background: rgba(20, 20, 20, 0.8);
+    /*background: rgba(20, 20, 20, 0.8);*/
     border-radius: 15px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    /*box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);*/
     overflow-y: scroll;
-    scrollbar-width: none; /* Скрываем скроллбар (Firefox) */
+    scrollbar-width: none;
     -ms-overflow-style: none;
     padding: 10px;
     position: relative;
     margin-top: -40px; /* 🔼 Поднимаем вверх */
 }
 
-/* Полностью скрываем скроллбар в Chrome, Safari, Edge */
+/* Скрываем скроллбар в Chrome, Safari, Edge */
 .calendar-wrapper::-webkit-scrollbar {
     width: 0px;
     height: 0px;
     display: none;
-}
-
-/* Отступ снизу для корректного отображения */
-.bottom-space {
-    height: 30px;
 }
