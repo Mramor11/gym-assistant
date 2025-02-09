@@ -23,7 +23,9 @@ const MealTracker = () => {
                             <h4>{meal.name}</h4>
                             <p>0 / {meal.calories} kcal</p>
                         </div>
-                        <button className="meal-add">+</button>
+                        <button className="meal-add">
+                            <img src={`${process.env.PUBLIC_URL}/icons/plus.svg`} alt="Add Meal"/>
+                        </button>
                     </div>
                 ))}
             </div>
