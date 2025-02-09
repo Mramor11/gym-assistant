@@ -78,4 +78,8 @@
     font-size: 20px;
     border-radius: 50%;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto; /* ⬅ Добавляем, чтобы кнопка не сжималась */
 }
