@@ -70,8 +70,8 @@
 
 /* Кнопка добавления */
 .meal-add {
-    min-width: 40px;
-    min-height: 40px;
+    width: 40px;
+    height: 40px;
     background: #222;
     border: none;
     color: #4ade80;
