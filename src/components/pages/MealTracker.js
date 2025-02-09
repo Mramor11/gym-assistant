@@ -2,8 +2,8 @@ import React from "react";
 import "./MealTracker.css"; // Подключаем стили
 
 const meals = [
-    { name: "Breakfast", calories: 922, icon: "🍵" },
-    { name: "Lunch", calories: 1229, icon: "🥗" },
+    { name: "Breakfast", calories: 922, icon: "☕️" },
+    { name: "Lunch", calories: 1229, icon: "🍲" },
     { name: "Dinner", calories: 768, icon: "🥗" },
     { name: "Snacks", calories: 154, icon: "🍎" },
 ];

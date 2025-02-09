@@ -1,19 +1,27 @@
 .calendar-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* 🔥 Размещаем элементы от верха */
+    align-items: center; /* Центрируем */
     width: 90%;
     max-width: 600px;
-    height: calc(105vh - 220px); /* Оставляем корректную высоту */
+    height: calc(105vh - 220px);
     background: rgba(20, 20, 20, 0.8);
     border-radius: 15px;
-    /*box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);*/
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     overflow-y: scroll;
+    overflow-x: hidden; /* ❌ Запрещаем горизонтальный скролл */
     scrollbar-width: none;
     -ms-overflow-style: none;
     padding: 10px;
     position: relative;
-    margin-top: -40px; /* 🔼 Поднимаем вверх */
+    margin-top: -40px;
+    touch-action: pan-y; /* ✅ Разрешаем ТОЛЬКО вертикальный скролл */
+}
+
+/* 🔥 Отключаем зумирование */
+html, body {
+    touch-action: manipulation;
+    overscroll-behavior: contain;
 }
 
 /* Скрываем скроллбар в Chrome, Safari, Edge */
