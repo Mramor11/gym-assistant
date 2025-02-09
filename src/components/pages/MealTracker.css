@@ -1,0 +1,81 @@
+.meal-tracker {
+    background: #101010;
+    border-radius: 15px;
+    padding: 15px;
+    width: 90%;
+    max-width: 400px;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 20px auto 0; /* 🔥 Автоматический центр */
+}
+
+/* Заголовок */
+.meal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.meal-header .more {
+    color: #4ade80;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Список приемов пищи */
+.meal-list {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Элемент еды */
+.meal-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Иконка еды */
+.meal-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+}
+
+/* Информация о приеме пищи */
+.meal-info {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.meal-info h4 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.meal-info p {
+    margin: 2px 0 0;
+    font-size: 14px;
+    color: #bbb;
+}
+
+/* Кнопка добавления */
+.meal-add {
+    width: 36px;
+    height: 36px;
+    background: #222;
+    border: none;
+    color: #4ade80;
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "./Calendar.css"; // Стили
-import CalorieCounter from "./CalorieCounter"; // Новый компонент
+import "./Calendar.css"; // Подключаем стили
+import CalorieCounter from "./CalorieCounter"; // Счетчик калорий
+import MealTracker from "./MealTracker"; // Новый блок приёмов пищи
 
 function Calendar() {
     const [data, setData] = useState({
@@ -22,9 +23,7 @@ function Calendar() {
 
     return (
         <div className="calendar-wrapper">
-
-
-            {/* Добавляем новый счетчик калорий */}
+            {/* Счетчик калорий */}
             <CalorieCounter
                 caloriesLeft={data.caloriesLeft}
                 supplied={data.supplied}
@@ -33,6 +32,9 @@ function Calendar() {
                 fat={data.fat}
                 protein={data.protein}
             />
+
+            {/* Блок приёмов пищи */}
+            <MealTracker />
 
             <div className="bottom-space"></div>
         </div>
