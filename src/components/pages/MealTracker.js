@@ -11,10 +11,6 @@ const meals = [
 const MealTracker = () => {
     return (
         <div className="meal-tracker">
-            <div className="meal-header">
-                <h3>Nutrition</h3>
-                <span className="more">More</span>
-            </div>
             <div className="meal-list">
                 {meals.map((meal, index) => (
                     <div key={index} className="meal-item">

@@ -5,7 +5,7 @@
     width: 90%;
     max-width: 600px;
     height: calc(105vh - 220px);
-    background: rgba(20, 20, 20, 0.8);
+    /*background: rgba(20, 20, 20, 0.8);*/
     border-radius: 15px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     overflow-y: scroll;
@@ -29,4 +29,51 @@ html, body {
     width: 0px;
     height: 0px;
     display: none;
+}
+
+/* Заголовки разделов */
+/* 🔥 Заголовки разделов */
+.section-title-wrapper {
+    display: flex;
+    justify-content: space-between; /* Заголовок слева, More справа */
+    align-items: center;
+    width: 100%;
+    padding: 2px 10px; /* Уменьшаем отступ сверху и снизу */
+    margin-bottom: 0px; /* 🔥 Уменьшаем расстояние до раздела */
+    box-sizing: border-box; /* Учитываем padding в ширине */
+}
+
+/* 🔥 Разделы внутри календаря */
+.calorie-counter,
+.meal-tracker,
+.water-tracker {
+    width: 100%;
+    background: #101010;
+    border-radius: 15px;
+    padding: 15px;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Отступ между разделами (оставляем) */
+.meal-tracker,
+.water-tracker {
+    margin-top: 15px;
+    margin-bottom: 25px;
+}
+
+/* Заголовок */
+.section-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+/* Кнопка "More" */
+.more-btn {
+    font-size: 14px;
+    color: #4ade80;
+    cursor: pointer;
+    background: none;
+    border: none;
 }

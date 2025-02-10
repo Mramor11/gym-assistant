@@ -1,0 +1,65 @@
+.water-tracker {
+    background: #3b82f6;
+    border-radius: 15px;
+    padding: 15px;
+    width: 90%;
+    max-width: 600px;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    margin: -15px auto 25px;
+    text-align: center;
+}
+
+.water-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.water-header h4 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.water-header p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #d1d5db;
+}
+
+h2 {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.glasses-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.glass {
+    width: 40px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.glass.filled {
+    background: white;
+    color: black;
+}
+
+.water-food {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #d1d5db;
+}
