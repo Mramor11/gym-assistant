@@ -1,0 +1,61 @@
+.glass-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 55px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.glass {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    clip-path: polygon(25% 100%, 75% 100%, 85% 0%, 15% 0%);
+    background: linear-gradient(to right, #e0e0e0 50%, #f8f8f8 50%);
+    border: 2px solid #d1d1d1;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.water {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(to right, #4dabf7 50%, #74c0fc 50%);
+    transition: height 0.7s ease-in-out;
+    border-radius: 5px;
+}
+
+/* Пузырьки воздуха */
+.bubble {
+    position: absolute;
+    bottom: 5px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: bubbleUp var(--speed, 2.5s) infinite ease-in-out;
+}
+
+/* Разные размеры пузырьков */
+.bubble.small {
+    width: 4px;
+    height: 4px;
+}
+
+.bubble.medium {
+    width: 6px;
+    height: 6px;
+}
+
+.bubble.large {
+    width: 8px;
+    height: 8px;
+}
+
+/* Анимация пузырьков */
+@keyframes bubbleUp {
+    0% { transform: translateY(0) scale(1); opacity: 0.7; }
+    50% { transform: translateY(-20px) scale(1.2); opacity: 0.4; }
+    100% { transform: translateY(-35px) scale(1.4); opacity: 0; }
+}
