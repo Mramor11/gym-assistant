@@ -1,18 +1,23 @@
 import React from "react";
 import "./WaterGlass.css"; // Подключаем стили
 
-const WaterGlass = ({ isFilled, onClick, fillProgress }) => {
+const WaterGlass = ({ isFilled, onClick, isLastFilled }) => {
     // Функция для серии вибраций с изменением силы
     const triggerHapticFeedbackSeries = (isAdding) => {
         if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
             try {
-                let intensities = ["light", "light", "light", "light", "light", "medium", "medium", "medium", "medium", "medium", "heavy", "heavy", "heavy", "heavy"]; // Градации виброотклика
+                let intensities = [
+                    "light", "light", "light", "light", "light",
+                    "medium", "medium", "medium", "medium", "medium",
+                    "heavy", "heavy", "heavy", "heavy", "heavy"
+                ]; // Градации виброотклика
+
                 let steps = isAdding ? intensities : intensities.reverse(); // Увеличиваем или уменьшаем силу
 
                 steps.forEach((intensity, index) => {
                     setTimeout(() => {
                         window.Telegram.WebApp.HapticFeedback.impactOccurred(intensity);
-                    }, index * 40); // Интервал между вибрациями 80 мс
+                    }, index * 40); // Интервал между вибрациями 40 мс
                 });
             } catch (error) {
                 console.warn("⚠️ Виброотклик недоступен", error);
@@ -22,10 +27,12 @@ const WaterGlass = ({ isFilled, onClick, fillProgress }) => {
         }
     };
 
-    // Обработчик клика (с виброоткликом)
+    // Обработчик клика (включает виброотклик ТОЛЬКО при нажатии на последний доступный стакан)
     const handleClick = () => {
         if (onClick) {
-            triggerHapticFeedbackSeries(!isFilled); // 📳 Включаем серию вибраций
+            if (isLastFilled) {
+                triggerHapticFeedbackSeries(!isFilled); // 📳 Включаем серию вибраций
+            }
             onClick(); // Заполняем/удаляем воду
         }
     };
