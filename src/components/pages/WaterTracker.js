@@ -4,7 +4,7 @@ import WaterGlass from "./WaterGlass"; // Импортируем стаканы
 
 const WaterTracker = () => {
     const glassSize = 0.25; // Один стакан = 250 мл
-    const minGlasses = 8; // Минимальное количество стаканов (статичны)
+    const minGlasses = 8; // Минимальное количество стаканов
     const maxGlasses = 20; // Максимум стаканов (до 5 литров)
     const goal = 2.0; // Фиксированная цель (2 литра)
     const maxLiters = 5.0; // Ограничение в 5 литров
@@ -28,25 +28,23 @@ const WaterTracker = () => {
     // Функция обновления количества стаканов
     const updateGlasses = (currentWater) => {
         let newGlasses = minGlasses;
-
         if (currentWater >= goal) {
             newGlasses = Math.min(
                 minGlasses + Math.floor((currentWater - goal) / glassSize) + 1,
                 maxGlasses
             );
         }
-
         setGlasses(newGlasses);
     };
 
-    // Добавление воды
+    // Добавление воды (только если нажали на первый пустой стакан)
     const addWater = (index) => {
         if (index === Math.floor(water / glassSize) && water + glassSize <= maxLiters) {
             setWater(water + glassSize);
         }
     };
 
-    // Удаление воды (по клику на последний заполненный стакан)
+    // Удаление воды (только если нажали на последний заполненный стакан)
     const removeWater = (index) => {
         if (index === Math.floor((water - glassSize) / glassSize) && water - glassSize >= 0) {
             setWater(water - glassSize);
@@ -59,21 +57,18 @@ const WaterTracker = () => {
 
             {/* Динамическое количество стаканов */}
             <div className="glasses-container">
-                {[...Array(glasses)].map((_, index) => {
-                    const isExtraGlass = index >= minGlasses; // 🔥 Проверяем, является ли стакан дополнительным
-                    return (
-                        <div
-                            key={index}
-                            className={isExtraGlass ? "extra-glass" : ""}
-                        >
-                            <WaterGlass
-                                isFilled={index < water / glassSize}
-                                showBubbles={index === Math.floor(water / glassSize) - 1} // Пузырьки только в последнем стакане
-                                onClick={() => (index < water / glassSize ? removeWater(index) : addWater(index))}
-                            />
-                        </div>
-                    );
-                })}
+                {[...Array(glasses)].map((_, index) => (
+                    <WaterGlass
+                        key={index}
+                        isFilled={index < water / glassSize}
+                        showBubbles={index < water / glassSize} // Пузырьки во всех заполненных стаканах
+                        isInteractive={
+                            index === Math.floor(water / glassSize) || // Первый пустой стакан
+                            index === Math.floor((water - glassSize) / glassSize) // Последний заполненный стакан
+                        }
+                        onClick={() => (index < water / glassSize ? removeWater(index) : addWater(index))}
+                    />
+                ))}
             </div>
 
             {/* Фиксированная цель */}
