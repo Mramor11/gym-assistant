@@ -6,7 +6,7 @@ const WaterGlass = ({ isFilled, onClick, fillProgress }) => {
     const triggerHapticFeedbackSeries = (isAdding) => {
         if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
             try {
-                let intensities = ["light", "light", "medium", "medium", "medium", "heavy", "heavy"]; // Градации виброотклика
+                let intensities = ["light", "light", "light", "light", "medium", "medium", "medium", "medium", "medium", "heavy", "heavy", "heavy"]; // Градации виброотклика
                 let steps = isAdding ? intensities : intensities.reverse(); // Увеличиваем или уменьшаем силу
 
                 steps.forEach((intensity, index) => {
