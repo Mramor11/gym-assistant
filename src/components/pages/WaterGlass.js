@@ -6,13 +6,13 @@ const WaterGlass = ({ isFilled, onClick, fillProgress }) => {
     const triggerHapticFeedbackSeries = (isAdding) => {
         if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
             try {
-                let intensities = ["light", "medium", "heavy"]; // Градации виброотклика
+                let intensities = ["light", "light", "medium", "medium", "medium", "heavy", "heavy"]; // Градации виброотклика
                 let steps = isAdding ? intensities : intensities.reverse(); // Увеличиваем или уменьшаем силу
 
                 steps.forEach((intensity, index) => {
                     setTimeout(() => {
                         window.Telegram.WebApp.HapticFeedback.impactOccurred(intensity);
-                    }, index * 80); // Интервал между вибрациями 80 мс
+                    }, index * 50); // Интервал между вибрациями 80 мс
                 });
             } catch (error) {
                 console.warn("⚠️ Виброотклик недоступен", error);
