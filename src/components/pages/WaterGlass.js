@@ -1,12 +1,19 @@
 import React from "react";
 import "./WaterGlass.css"; // Подключаем стили
 
-const WaterGlass = ({ isFilled, onClick }) => {
-    // Функция для виброотклика через Telegram WebApp
-    const triggerHapticFeedback = () => {
+const WaterGlass = ({ isFilled, onClick, fillProgress }) => {
+    // Функция для серии вибраций с изменением силы
+    const triggerHapticFeedbackSeries = (isAdding) => {
         if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
             try {
-                window.Telegram.WebApp.HapticFeedback.impactOccurred("medium");
+                let intensities = ["light", "medium", "heavy"]; // Градации виброотклика
+                let steps = isAdding ? intensities : intensities.reverse(); // Увеличиваем или уменьшаем силу
+
+                steps.forEach((intensity, index) => {
+                    setTimeout(() => {
+                        window.Telegram.WebApp.HapticFeedback.impactOccurred(intensity);
+                    }, index * 80); // Интервал между вибрациями 80 мс
+                });
             } catch (error) {
                 console.warn("⚠️ Виброотклик недоступен", error);
             }
@@ -15,10 +22,10 @@ const WaterGlass = ({ isFilled, onClick }) => {
         }
     };
 
-    // Обработчик клика (с добавлением вибрации)
+    // Обработчик клика (с виброоткликом)
     const handleClick = () => {
         if (onClick) {
-            triggerHapticFeedback(); // 📳 Включаем вибрацию
+            triggerHapticFeedbackSeries(!isFilled); // 📳 Включаем серию вибраций
             onClick(); // Заполняем/удаляем воду
         }
     };
@@ -28,7 +35,7 @@ const WaterGlass = ({ isFilled, onClick }) => {
             <div className="glass">
                 {/* Вода */}
                 <div className="water" style={{ height: isFilled ? "100%" : "0%" }}>
-                    {/* 🔥 Пузырьки воздуха теперь на всех заполненных стаканах */}
+                    {/* 🔥 Возвращенные пузырьки воздуха */}
                     {isFilled && (
                         <>
                             <div className="bubble small" style={{ left: "30%", animationDelay: "0.3s", "--speed": "2.2s" }}></div>
