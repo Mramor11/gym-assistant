@@ -11,6 +11,8 @@ const WaterTracker = () => {
 
     const [water, setWater] = useState(0);
     const [glasses, setGlasses] = useState(minGlasses);
+    const [removingGlass, setRemovingGlass] = useState(null); // Индекс удаляемого стакана
+    const [newGlassAdded, setNewGlassAdded] = useState(false); // Флаг для анимации появления
 
     // Загружаем данные из localStorage
     useEffect(() => {
@@ -34,6 +36,12 @@ const WaterTracker = () => {
                 maxGlasses
             );
         }
+
+        if (newGlasses > glasses) {
+            setNewGlassAdded(true);
+            setTimeout(() => setNewGlassAdded(false), 500); // Анимация появления
+        }
+
         setGlasses(newGlasses);
     };
 
@@ -46,7 +54,18 @@ const WaterTracker = () => {
 
     // Удаление воды (только если нажали на последний заполненный стакан)
     const removeWater = (index) => {
-        if (index === Math.floor((water - glassSize) / glassSize) && water - glassSize >= 0) {
+        const lastExtraGlassIndex = minGlasses + Math.floor((water - goal) / glassSize);
+
+        // ✅ Анимируем исчезновение последнего **пустого** стакана
+        if (index === lastExtraGlassIndex && glasses > minGlasses) {
+            setRemovingGlass(index); // Помечаем стакан как удаляемый
+            setTimeout(() => {
+                setWater(water - glassSize);
+                setRemovingGlass(null); // Убираем стакан после анимации
+            }, 300); // Ожидаем завершения анимации
+        }
+        // ✅ Если удаляем обычный стакан (без анимации)
+        else if (index === Math.floor((water - glassSize) / glassSize) && water - glassSize >= 0) {
             setWater(water - glassSize);
         }
     };
@@ -58,16 +77,25 @@ const WaterTracker = () => {
             {/* Динамическое количество стаканов */}
             <div className="glasses-container">
                 {[...Array(glasses)].map((_, index) => (
-                    <WaterGlass
-                        key={index}
-                        isFilled={index < water / glassSize}
-                        showBubbles={index < water / glassSize} // Пузырьки во всех заполненных стаканах
-                        isInteractive={
-                            index === Math.floor(water / glassSize) || // Первый пустой стакан
-                            index === Math.floor((water - glassSize) / glassSize) // Последний заполненный стакан
-                        }
-                        onClick={() => (index < water / glassSize ? removeWater(index) : addWater(index))}
-                    />
+                    <div key={index} className={`glass-wrapper 
+                        ${index === removingGlass ? "removing-glass" : ""} 
+                        ${newGlassAdded && index === glasses - 1 ? "new-glass" : ""}`}>
+                        <WaterGlass
+                            isFilled={index < water / glassSize}
+                            showBubbles={index < water / glassSize} // Пузырьки во всех заполненных стаканах
+                            isInteractive={
+                                index === Math.floor(water / glassSize) || // Первый пустой стакан
+                                index === Math.floor((water - glassSize) / glassSize) // Последний заполненный стакан
+                            }
+                            onClick={() => {
+                                if (index === Math.floor(water / glassSize)) {
+                                    addWater(index);
+                                } else if (index === Math.floor((water - glassSize) / glassSize)) {
+                                    removeWater(index);
+                                }
+                            }}
+                        />
+                    </div>
                 ))}
             </div>
 

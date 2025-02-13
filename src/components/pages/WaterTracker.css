@@ -27,43 +27,50 @@
     margin-top: 10px;
 }
 
-/* 🔥 Анимация появления дополнительных стаканов (после 2 л) */
-.extra-glass {
+/* Контейнер стакана */
+/* Контейнер стакана */
+.glass-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/* ✅ Анимация появления нового стакана (выезжает слева) */
+.glass-wrapper.new-glass {
+    transform: translateX(-50%) scale(0.8);
     opacity: 0;
-    transform: scale(0.8);
-    animation: fadeInScale 0.4s ease-out forwards;
+    animation: slideIn 0.3s ease-in-out forwards;
 }
 
-/* 🔥 Анимация исчезновения */
-.extra-glass.removing {
-    opacity: 1;
-    transform: scale(1);
-    animation: fadeOutScale 0.4s ease-in forwards;
+/* 🔥 Анимация исчезновения пустого стакана */
+.removing-glass {
+    animation: removeGlass 0.3s ease-in-out forwards;
 }
 
-/* 🔥 Плавное появление */
-@keyframes fadeInScale {
-    0% {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* 🔥 Плавное исчезновение */
-@keyframes fadeOutScale {
+@keyframes removeGlass {
     0% {
         opacity: 1;
-        transform: scale(1);
+        transform: translateX(0);
     }
     100% {
         opacity: 0;
-        transform: scale(0.8);
+        transform: translateX(-20px);
     }
 }
+
+/* ✅ Выезжает слева */
+@keyframes slideIn {
+    0% {
+        transform: translateX(-50%) scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0) scale(1);
+        opacity: 1;
+    }
+}
+
 
 /* Надпись Goal */
 .water-goal {
