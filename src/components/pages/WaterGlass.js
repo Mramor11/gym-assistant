@@ -12,7 +12,7 @@ const WaterGlass = ({ isFilled, onClick, fillProgress }) => {
                 steps.forEach((intensity, index) => {
                     setTimeout(() => {
                         window.Telegram.WebApp.HapticFeedback.impactOccurred(intensity);
-                    }, index * 42); // Интервал между вибрациями 80 мс
+                    }, index * 40); // Интервал между вибрациями 80 мс
                 });
             } catch (error) {
                 console.warn("⚠️ Виброотклик недоступен", error);
