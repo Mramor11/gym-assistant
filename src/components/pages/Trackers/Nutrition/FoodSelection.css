@@ -1,0 +1,122 @@
+.food-selection-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #1c1c1c; /* ✅ Теперь фон сплошной */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* ✅ Начало сверху */
+    z-index: 1000;
+}
+
+.food-selection-container {
+    width: 100%; /* ✅ Растягиваем на всю ширину */
+    height: 100%; /* ✅ Растягиваем на всю высоту */
+    padding: 15px;
+    box-shadow: none; /* ✅ Убираем тень */
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Заголовок */
+.header {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Поле поиска */
+.search-bar {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar input {
+    width: 90%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background: #292929;
+    color: white;
+}
+
+/* Категории еды */
+.categories {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+}
+
+.categories button {
+    background: #292929;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Табы */
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.tabs button {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 14px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.tabs .active {
+    color: white;
+    font-weight: bold;
+}
+
+/* Список еды */
+.food-list {
+    flex: 1; /* ✅ Заполняет оставшееся место */
+    overflow-y: auto; /* ✅ Даем прокрутку списку */
+    margin-top: 10px;
+    padding-bottom: 60px; /* Отступ под кнопку Done */
+}
+
+.food-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.food-item button {
+    background: #4ade80;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Кнопка "Done" */
+.done-btn {
+    width: 100%;
+    background: #4ade80;
+    color: white;
+    padding: 15px;
+    border-radius: 0; /* ✅ Растягиваем на всю ширину */
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}

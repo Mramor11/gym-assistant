@@ -8,7 +8,7 @@ const meals = [
     { name: "Snacks", calories: 154, icon: "🍎" },
 ];
 
-const MealTracker = () => {
+const MealTracker = ({ onOpenFoodSelection }) => {
     return (
         <div className="meal-tracker">
             <div className="meal-list">
@@ -19,7 +19,13 @@ const MealTracker = () => {
                             <h4>{meal.name}</h4>
                             <p>0 / {meal.calories} kcal</p>
                         </div>
-                        <button className="meal-add">
+                        <button
+                            className="meal-add"
+                            onClick={() => {
+                                console.log("🟢 Кнопка + нажата!");
+                                onOpenFoodSelection();
+                            }}
+                        >
                             <img src={`${process.env.PUBLIC_URL}/icons/plus.svg`} alt="Add Meal"/>
                         </button>
                     </div>

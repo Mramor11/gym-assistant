@@ -93,11 +93,14 @@ html, body {
 /*    border-radius: 5px;*/
 /*}*/
 
+
 /* Запас перед панелью навигации */
 .bottom-space {
     height: 100px;
     flex-shrink: 0;
 }
+
+
 
 /* 🔥 Исправленный стиль панели навигации */
 .tab-bar {
@@ -166,4 +169,12 @@ html, body {
     height: 100%;
     pointer-events: none;
     z-index: 0;
+}
+
+.food-selection-open .tab-bar {
+    position: absolute;
+    bottom: -100px; /* ✅ Убираем панель вниз за границы экрана */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, bottom 0.3s ease-in-out;
 }

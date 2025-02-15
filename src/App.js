@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import BackgroundParticles from "./components/BackgroundParticles";
-import Calendar from "./components/pages/Calendar";
+import Calendar from "./components/pages/Trackers/Calendar";
 import Dumbbell from "./components/pages/Dumbbell";
-import Settings from "./components/pages/Settings";
+import Settings from "./components/pages/Settings/Settings";
+import FoodSelection from "./components/pages/Trackers/Nutrition/FoodSelection";
 
 function App() {
     const [activeTab, setActiveTab] = useState("calendar");
+    const [isFoodSelectionOpen, setIsFoodSelectionOpen] = useState(false);
+    const calendarRef = useRef(null);
+    const [scrollPosition, setScrollPosition] = useState(0);
 
     useEffect(() => {
-        // Принудительно загружаем Telegram API
         const script = document.createElement("script");
         script.src = "https://telegram.org/js/telegram-web-app.js";
         script.async = true;
@@ -26,23 +29,13 @@ function App() {
     }, []);
 
     useEffect(() => {
-    const preventScroll = (event) => {
-        const calendarWrapper = document.querySelector(".calendar-wrapper");
-        if (!calendarWrapper || !calendarWrapper.contains(event.target)) {
-            event.preventDefault();
+        if (isFoodSelectionOpen) {
+            document.body.classList.add("food-selection-open");
+        } else {
+            document.body.classList.remove("food-selection-open");
         }
-    };
+    }, [isFoodSelectionOpen]);
 
-    document.body.style.overflow = "hidden"; // Запрещаем скроллинг всей страницы
-    document.addEventListener("touchmove", preventScroll, { passive: false });
-
-    return () => {
-        document.body.style.overflow = ""; // Восстанавливаем прокрутку при выходе
-        document.removeEventListener("touchmove", preventScroll);
-    };
-}, []);
-
-    // Функция для виброотклика
     const triggerHapticFeedback = () => {
         if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
             try {
@@ -55,7 +48,6 @@ function App() {
         }
     };
 
-    // Функция переключения вкладок с виброоткликом
     const handleTabChange = (tab) => {
         if (tab !== activeTab) {
             setActiveTab(tab);
@@ -76,32 +68,50 @@ function App() {
         }
     };
 
+    const openFoodSelection = () => {
+        if (calendarRef.current) {
+            setScrollPosition(calendarRef.current.scrollTop); // ✅ Запоминаем позицию скролла
+        }
+        setIsFoodSelectionOpen(true);
+    };
+
+    const closeFoodSelection = () => {
+        setIsFoodSelectionOpen(false);
+    };
+
     return (
         <div className="app">
-            {/* Фоновая анимация */}
             <BackgroundParticles />
 
-            {/* Контент приложения */}
             <main className="scrollable-content">
-                {activeTab === "calendar" && <Calendar />}
-                {activeTab === "dumbbell" && <Dumbbell />}
-                {activeTab === "settings" && <Settings />}
+                {isFoodSelectionOpen ? (
+                    <FoodSelection onClose={closeFoodSelection} />
+                ) : (
+                    <>
+                        {activeTab === "calendar" && (
+                            <Calendar onOpenFoodSelection={openFoodSelection} ref={calendarRef} scrollPosition={scrollPosition} />
+                        )}
+                        {activeTab === "dumbbell" && <Dumbbell />}
+                        {activeTab === "settings" && <Settings />}
+                    </>
+                )}
             </main>
 
-            {/* Нижняя панель навигации */}
-            <nav className="tab-bar">
-                <div className="active-indicator" style={{ left: getIndicatorPosition() }}></div>
+            {!isFoodSelectionOpen && (
+                <nav className="tab-bar">
+                    <div className="active-indicator" style={{ left: getIndicatorPosition() }}></div>
 
-                <button className={activeTab === "calendar" ? "active" : ""} onClick={() => handleTabChange("calendar")}>
-                    <img src={`${process.env.PUBLIC_URL}/icons/calendar.svg`} alt="Calendar" className="button-icon" />
-                </button>
-                <button className={activeTab === "dumbbell" ? "active" : ""} onClick={() => handleTabChange("dumbbell")}>
-                    <img src={`${process.env.PUBLIC_URL}/icons/dumbbell.svg`} alt="Dumbbell" className="button-icon" />
-                </button>
-                <button className={activeTab === "settings" ? "active" : ""} onClick={() => handleTabChange("settings")}>
-                    <img src={`${process.env.PUBLIC_URL}/icons/settings.svg`} alt="Settings" className="button-icon" />
-                </button>
-            </nav>
+                    <button className={activeTab === "calendar" ? "active" : ""} onClick={() => handleTabChange("calendar")}>
+                        <img src={`${process.env.PUBLIC_URL}/icons/calendar.svg`} alt="Calendar" className="button-icon" />
+                    </button>
+                    <button className={activeTab === "dumbbell" ? "active" : ""} onClick={() => handleTabChange("dumbbell")}>
+                        <img src={`${process.env.PUBLIC_URL}/icons/dumbbell.svg`} alt="Dumbbell" className="button-icon" />
+                    </button>
+                    <button className={activeTab === "settings" ? "active" : ""} onClick={() => handleTabChange("settings")}>
+                        <img src={`${process.env.PUBLIC_URL}/icons/settings.svg`} alt="Settings" className="button-icon" />
+                    </button>
+                </nav>
+            )}
         </div>
     );
 }
