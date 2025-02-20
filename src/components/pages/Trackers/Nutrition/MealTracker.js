@@ -1,5 +1,6 @@
-import React from "react";
-import "./MealTracker.css"; // Подключаем стили
+import React, { useState } from "react";
+import "./MealTracker.css";
+import FoodSelection from "./FoodSelection"; // Импортируем модальное окно
 
 const meals = [
     { name: "Breakfast", calories: 922, icon: "☕️" },
@@ -8,7 +9,19 @@ const meals = [
     { name: "Snacks", calories: 154, icon: "🍎" },
 ];
 
-const MealTracker = ({ onOpenFoodSelection }) => {
+const MealTracker = () => {
+    const [selectedMeal, setSelectedMeal] = useState(null);
+
+    // Функция открытия модального окна
+    const openFoodSelection = (meal) => {
+        setSelectedMeal(meal);
+    };
+
+    // Функция закрытия модального окна
+    const closeFoodSelection = () => {
+        setSelectedMeal(null);
+    };
+
     return (
         <div className="meal-tracker">
             <div className="meal-list">
@@ -21,16 +34,16 @@ const MealTracker = ({ onOpenFoodSelection }) => {
                         </div>
                         <button
                             className="meal-add"
-                            onClick={() => {
-                                console.log("🟢 Кнопка + нажата!");
-                                onOpenFoodSelection();
-                            }}
+                            onClick={() => openFoodSelection(meal.name)}
                         >
                             <img src={`${process.env.PUBLIC_URL}/icons/plus.svg`} alt="Add Meal"/>
                         </button>
                     </div>
                 ))}
             </div>
+
+            {/* Модальное окно FoodSelection */}
+            {selectedMeal && <FoodSelection meal={selectedMeal} onClose={closeFoodSelection} />}
         </div>
     );
 };

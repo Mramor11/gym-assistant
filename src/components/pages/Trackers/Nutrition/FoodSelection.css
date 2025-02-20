@@ -1,122 +1,228 @@
+/* Затемнение фона */
+/* Затемнение фона */
 .food-selection-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #1c1c1c; /* ✅ Теперь фон сплошной */
+    background: rgba(0, 0, 0, 0.7); /* 🔥 Полупрозрачный фон */
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* ✅ Начало сверху */
-    z-index: 1000;
+    align-items: center; /* 🔥 Центрируем окно */
+    z-index: 100;
 }
 
-.food-selection-container {
-    width: 100%; /* ✅ Растягиваем на всю ширину */
-    height: 100%; /* ✅ Растягиваем на всю высоту */
-    padding: 15px;
-    box-shadow: none; /* ✅ Убираем тень */
-    color: white;
+/* Основное окно */
+.food-selection-modal {
+    width: 90%;
+    max-width: 500px;
+    background: #101010; /* 🔥 Цвет фона окна */
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    transform: translateY(20px);
+    animation: fadeIn 0.3s forwards;
     display: flex;
     flex-direction: column;
+    max-height: 75vh; /* 🔥 Уменьшаем высоту */
 }
 
+/* Анимация появления */
+@keyframes fadeIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
 /* Заголовок */
-.header {
-    text-align: center;
+.food-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Счетчик блюд */
+.food-counter {
+    background: #996cff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* Название приема пищи */
+.meal-title {
     font-size: 20px;
     font-weight: bold;
-    margin-top: 10px;
+    color: white;
+}
+
+/* Кнопка опций (троеточие) */
+.food-options-btn {
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
 }
 
 /* Поле поиска */
 .search-bar {
-    padding: 10px;
     display: flex;
-    justify-content: center;
-}
-
-.search-bar input {
-    width: 90%;
-    padding: 10px;
+    background: #2a2a2d;
     border-radius: 10px;
-    border: none;
-    background: #292929;
-    color: white;
-}
-
-/* Категории еды */
-.categories {
-    display: flex;
-    justify-content: space-around;
+    padding: 5px;
     margin: 10px 0;
 }
 
-.categories button {
-    background: #292929;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-/* Табы */
-.tabs {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
-}
-
-.tabs button {
+.search-bar input {
+    flex: 1;
     background: none;
     border: none;
-    color: #888;
-    font-size: 14px;
-    padding: 5px;
-    cursor: pointer;
+    padding: 10px;
+    color: white;
+    font-size: 16px;
 }
 
-.tabs .active {
+/* Табуляция */
+.food-tabs {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 10px;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    color: #bbb;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.tab-btn.active {
     color: white;
     font-weight: bold;
+    border-bottom: 2px solid white;
 }
 
 /* Список еды */
 .food-list {
-    flex: 1; /* ✅ Заполняет оставшееся место */
-    overflow-y: auto; /* ✅ Даем прокрутку списку */
-    margin-top: 10px;
-    padding-bottom: 60px; /* Отступ под кнопку Done */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    overflow-y: auto;
+    max-height: 40vh;
+
+    /* 🔥 Скрываем скроллбар для всех браузеров */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE и Edge */
 }
 
-.food-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.food-list::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
 }
 
-.food-item button {
-    background: #4ade80;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
+.placeholder-text {
+    color: #bbb;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
 }
 
 /* Кнопка "Done" */
 .done-btn {
     width: 100%;
-    background: #4ade80;
-    color: white;
     padding: 15px;
-    border-radius: 0; /* ✅ Растягиваем на всю ширину */
+    background: #996cff;
+    color: white;
     border: none;
-    font-size: 16px;
+    border-radius: 10px;
+    font-size: 18px;
     cursor: pointer;
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    margin-top: 10px;
+}
+
+/* 🔵 Стиль контейнера результата */
+.search-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1a1a1d;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 🟡 Информация о продукте */
+.result-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.result-name {
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.result-brand {
+    color: #aaa;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.result-tag {
+    background: #333;
+    color: #bbb;
+    padding: 4px 10px;
+    border-radius: 8px;
+    display: inline-block;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+/* ⚪ Калории и кнопка добавления */
+.result-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.result-kcal {
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.add-btn {
+    background: #996cff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 22px;
+    cursor: pointer;
 }

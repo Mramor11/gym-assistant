@@ -1,16 +1,13 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import "./App.css";
 import BackgroundParticles from "./components/BackgroundParticles";
 import Calendar from "./components/pages/Trackers/Calendar";
 import Dumbbell from "./components/pages/Dumbbell";
 import Settings from "./components/pages/Settings/Settings";
-import FoodSelection from "./components/pages/Trackers/Nutrition/FoodSelection";
+
 
 function App() {
     const [activeTab, setActiveTab] = useState("calendar");
-    const [isFoodSelectionOpen, setIsFoodSelectionOpen] = useState(false);
-    const calendarRef = useRef(null);
-    const [scrollPosition, setScrollPosition] = useState(0);
 
     useEffect(() => {
         const script = document.createElement("script");
@@ -28,13 +25,6 @@ function App() {
         document.body.appendChild(script);
     }, []);
 
-    useEffect(() => {
-        if (isFoodSelectionOpen) {
-            document.body.classList.add("food-selection-open");
-        } else {
-            document.body.classList.remove("food-selection-open");
-        }
-    }, [isFoodSelectionOpen]);
 
     const triggerHapticFeedback = () => {
         if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
@@ -68,36 +58,24 @@ function App() {
         }
     };
 
-    const openFoodSelection = () => {
-        if (calendarRef.current) {
-            setScrollPosition(calendarRef.current.scrollTop); // ✅ Запоминаем позицию скролла
-        }
-        setIsFoodSelectionOpen(true);
-    };
-
-    const closeFoodSelection = () => {
-        setIsFoodSelectionOpen(false);
-    };
 
     return (
         <div className="app">
             <BackgroundParticles />
 
             <main className="scrollable-content">
-                {isFoodSelectionOpen ? (
-                    <FoodSelection onClose={closeFoodSelection} />
-                ) : (
+
+
+
                     <>
-                        {activeTab === "calendar" && (
-                            <Calendar onOpenFoodSelection={openFoodSelection} ref={calendarRef} scrollPosition={scrollPosition} />
-                        )}
+                        {activeTab === "calendar" && <Calendar />}
                         {activeTab === "dumbbell" && <Dumbbell />}
                         {activeTab === "settings" && <Settings />}
                     </>
-                )}
+
             </main>
 
-            {!isFoodSelectionOpen && (
+
                 <nav className="tab-bar">
                     <div className="active-indicator" style={{ left: getIndicatorPosition() }}></div>
 
@@ -111,7 +89,7 @@ function App() {
                         <img src={`${process.env.PUBLIC_URL}/icons/settings.svg`} alt="Settings" className="button-icon" />
                     </button>
                 </nav>
-            )}
+
         </div>
     );
 }

@@ -1,0 +1,57 @@
+/* 🔥 Затемнение фона */
+.food-details-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 200;
+}
+
+/* 🔵 Основное модальное окно */
+.food-details-modal {
+    width: 90%; max-width: 500px;
+    background: #101010;
+    border-radius: 15px; padding: 20px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex; flex-direction: column;
+    max-height: 75vh; overflow-y: auto;
+}
+
+/* 🟡 Заголовок */
+.details-header {
+    display: flex; justify-content: space-between; align-items: center;
+    color: white; font-size: 20px; font-weight: bold;
+}
+.back-btn, .favorite-btn {
+    background: none; border: none; color: white; font-size: 24px; cursor: pointer;
+}
+
+/* ⚪ КБЖУ */
+.nutrition-summary {
+    display: flex; justify-content: space-around; margin: 20px 0; color: white;
+}
+.nutrition-summary div { text-align: center; }
+.nutrition-summary span { font-size: 22px; font-weight: bold; }
+.nutrition-summary p { font-size: 14px; color: #bbb; }
+
+/* 🔴 Блок выбора количества */
+.quantity-selector {
+    display: flex; justify-content: center; align-items: center;
+    gap: 10px; margin-bottom: 20px;
+}
+.quantity-input, .unit-select {
+    padding: 10px; border-radius: 10px; border: none;
+    font-size: 16px; text-align: center;
+}
+.quantity-input { width: 100px; }
+.unit-select { background: #2a2a2d; color: white; }
+
+/* 🟢 Кнопка "Add" */
+.add-food-btn {
+    width: 100%; padding: 15px;
+    background: #996cff; color: white;
+    border: none; border-radius: 10px;
+    font-size: 18px; cursor: pointer;
+}
