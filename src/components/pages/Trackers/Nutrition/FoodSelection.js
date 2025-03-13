@@ -1,104 +1,133 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./FoodSelection.css";
 import axios from "axios";
 import BackgroundParticles from "../../../BackgroundParticles";
 import FoodDetailsModal from "./FoodDetailsModal";
 import AddedFoodsModal from "./AddedFoodsModal";
+import CustomFoodModal from "./CustomFoodModal";
 
-const USDA_API_KEY = process.env.REACT_APP_USDA_API_KEY;
-
-const FoodSelection = ({ meal, onClose }) => {
+const FoodSelection = ({ meal, onClose, onAddFood }) => {
     const [activeTab, setActiveTab] = useState("Frequent");
     const [searchQuery, setSearchQuery] = useState("");
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [addedFoods, setAddedFoods] = useState([]);
+    const [customFoods, setCustomFoods] = useState([]);
     const [showAddedModal, setShowAddedModal] = useState(false);
+    const [showCustomFoodModal, setShowCustomFoodModal] = useState(false);
+    
+    const handleSaveCustomFood = (newFood) => {
+        console.log("Saving custom food:", newFood);
+        const updatedCustomFoods = [...customFoods, newFood];
+        setCustomFoods(updatedCustomFoods);
+    
+        // ✅ Сохраняем в localStorage
+        localStorage.setItem("customFoods", JSON.stringify(updatedCustomFoods));
+    
+        // ✅ Добавляем калории в MealTracker
+        onAddFood(meal, Math.round(newFood.calories * (newFood.quantity / 100)));
+    
+        setShowCustomFoodModal(false);
+    };
 
-    // 🔥 Основная функция поиска с обеих БД
+    const USDA_API_KEY = process.env.REACT_APP_USDA_API_KEY;
+
+    useEffect(() => {
+        const savedFoods = JSON.parse(localStorage.getItem(`addedFoods_${meal}`)) || [];
+        setAddedFoods(savedFoods);
+
+        const savedCustomFoods = JSON.parse(localStorage.getItem("customFoods")) || [];
+        setCustomFoods(savedCustomFoods);
+    }, [meal]);
+
+    useEffect(() => {
+        const savedCustomFoods = JSON.parse(localStorage.getItem("customFoods")) || [];
+        console.log("Загруженные customFoods из localStorage:", savedCustomFoods);
+        setCustomFoods(savedCustomFoods);
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem(`addedFoods_${meal}`, JSON.stringify(addedFoods));
+    }, [addedFoods]);
+
+    useEffect(() => {
+        localStorage.setItem("customFoods", JSON.stringify(customFoods));
+    }, [customFoods]);
+
     const searchFood = async () => {
         if (!searchQuery.trim()) return;
         setLoading(true);
+        setResults([]);
         try {
-            const [openFoodFactsRes, usdaRes] = await Promise.all([
-                axios.get(`https://world.openfoodfacts.org/cgi/search.pl`, {
-                    params: {
-                        search_terms: searchQuery,
-                        search_simple: 1,
-                        action: "process",
-                        json: 1,
-                    },
-                }),
-                axios.get(`https://api.nal.usda.gov/fdc/v1/foods/search`, {
-                    params: {
-                        query: searchQuery,
-                        api_key: USDA_API_KEY,
-                    },
-                }),
-            ]);
+            const openFoodFactsResponse = await axios.get(`https://world.openfoodfacts.org/cgi/search.pl`, {
+                params: {
+                    search_terms: searchQuery,
+                    search_simple: 1,
+                    action: "process",
+                    json: 1,
+                },
+            });
 
-            const openFoodFactsResults = (openFoodFactsRes.data.products || [])
-                .filter((product) => product.nutriments?.["energy-kcal_100g"])
-                .map((product) => ({
-                    name: product.product_name,
-                    brand: product.brands,
-                    quantity: product.product_quantity,
-                    kcalPer100g: product.nutriments["energy-kcal_100g"],
-                    source: "OpenFoodFacts",
-                }));
+            const usdaResponse = await axios.get(`https://api.nal.usda.gov/fdc/v1/foods/search`, {
+                params: {
+                    query: searchQuery,
+                    api_key: USDA_API_KEY,
+                },
+            });
 
-            const usdaResults = (usdaRes.data.foods || [])
-                .filter((food) => food.foodNutrients?.some((n) => n.nutrientName === "Energy"))
-                .map((food) => ({
-                    name: food.description,
-                    brand: food.brandOwner,
-                    quantity: food.servingSize,
-                    kcalPer100g: food.foodNutrients.find((n) => n.nutrientName === "Energy")?.value,
-                    source: "USDA",
-                }));
+            const openFoodResults = (openFoodFactsResponse.data.products || [])
+                .map(product => ({
+                    id: product.id || Date.now(),
+                    product_name: product.product_name || "Unnamed product",
+                    quantity: 100,
+                    unit: "g",
+                    calories: product.nutriments?.["energy-kcal_100g"] || 0,
+                    protein: product.nutriments?.["proteins_100g"] || 0,
+                    fat: product.nutriments?.["fat_100g"] || 0,
+                    carbs: product.nutriments?.["carbohydrates_100g"] || 0,
+                }))
+                .filter(product => product.calories > 0);
 
-            const combinedResults = [...openFoodFactsResults, ...usdaResults].sort((a, b) =>
+            const usdaResults = (usdaResponse.data.foods || [])
+                .map(food => ({
+                    id: food.fdcId,
+                    product_name: food.description,
+                    quantity: 100,
+                    unit: "g",
+                    calories: food.foodNutrients.find(n => n.nutrientName === "Energy")?.value || 0,
+                    protein: food.foodNutrients.find(n => n.nutrientName === "Protein")?.value || 0,
+                    fat: food.foodNutrients.find(n => n.nutrientName === "Total lipid (fat)")?.value || 0,
+                    carbs: food.foodNutrients.find(n => n.nutrientName === "Carbohydrate, by difference")?.value || 0,
+                }))
+                .filter(food => food.calories > 0);
+
+            const combinedResults = [...openFoodResults, ...usdaResults].sort((a, b) =>
                 compareProducts(a, b, searchQuery)
             );
 
             setResults(combinedResults);
         } catch (error) {
-            console.error("Ошибка при запросе:", error);
+            console.error("Ошибка при запросе к базе данных:", error);
         } finally {
             setLoading(false);
         }
     };
 
-    // 🎯 Сортировка по совпадению
     const compareProducts = (a, b, query) => {
         const normalize = (str) => str?.toLowerCase() ?? "";
+        const aName = normalize(a.product_name);
+        const bName = normalize(b.product_name);
         const q = normalize(query);
+
         const rank = (name) => {
             if (name === q) return 0;
             if (name.startsWith(q)) return 1;
             if (name.includes(q)) return 2;
             return 3;
         };
-        return rank(normalize(a.name)) - rank(normalize(b.name));
+        return rank(aName) - rank(bName);
     };
-
-    const handleAddFood = (product, quantity, unit) => {
-    const newFood = {
-        id: product.id || product._id || Date.now(), // 🔄 Уникальный ID
-        product_name: product.product_name || product.name || "Unknown Product", // ✅ Название продукта
-        quantity: quantity,
-        unit: unit,
-        calories: product.nutriments?.["energy-kcal_100g"] || 0, // ✅ Калории
-        carbs: product.nutriments?.["carbohydrates_100g"] || 0,  // 🍞 Углеводы
-        fat: product.nutriments?.["fat_100g"] || 0,              // 🧈 Жиры
-        protein: product.nutriments?.["proteins_100g"] || 0,     // 🍗 Белки
-    };
-
-    console.log("Добавлено в список:", newFood); // ✅ Проверим структуру данных
-    setAddedFoods([...addedFoods, newFood]);
-    setSelectedProduct(null);
-};
 
     return (
         <div className="food-selection-overlay">
@@ -109,7 +138,7 @@ const FoodSelection = ({ meal, onClose }) => {
                         {addedFoods.length}
                     </button>
                     <h2 className="meal-title">{meal}</h2>
-                    <button className="food-options-btn">⋮</button>
+                    <button className="food-options-btn" onClick={() => setShowCustomFoodModal(true)}>⋮</button>
                 </div>
 
                 <div className="search-bar">
@@ -125,28 +154,45 @@ const FoodSelection = ({ meal, onClose }) => {
                     </button>
                 </div>
 
+                <div className="food-tabs">
+                    {["Frequent", "Custom"].map((tab) => (
+                        <button
+                            key={tab}
+                            className={`tab-btn ${activeTab === tab ? "active" : ""}`}
+                            onClick={() => setActiveTab(tab)}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
+
                 <div className="food-list">
-                    {loading ? (
-                        <p className="placeholder-text">Loading...</p>
-                    ) : results.length === 0 ? (
-                        <p className="placeholder-text">No items found</p>
+                {loading ? (
+                    <p className="placeholder-text">Loading...</p>
+                ) : activeTab === "Custom" ? (
+                    customFoods.length === 0 ? (
+                        <p className="placeholder-text">No custom foods added</p>
                     ) : (
-                        results.map((product, index) => (
+                        customFoods.map((product, index) => (
                             <div key={index} className="search-result-item" onClick={() => setSelectedProduct(product)}>
                                 <div className="result-info">
-                                    <h4 className="result-name">{product.name}</h4>
-                                    <p className="result-brand">{product.brand || "Unknown brand"}</p>
-                                    <span className="result-tag">{product.source}</span>
+                                    <h4 className="result-name">{product.product_name}</h4>
+                                    <p className="result-brand">{product.quantity} {product.unit}</p>
+                                    <span className="result-tag">Custom</span>
                                 </div>
                                 <div className="result-actions">
-                                    <span className="result-kcal">
-                                        {product.kcalPer100g ? `${product.kcalPer100g} kcal/100g` : "N/A"}
-                                    </span>
-                                    <button className="add-btn">+</button>
+                                    <span className="result-kcal">{product.calories} kcal</span>
+                                    <button className="add-btn" onClick={(e) => {
+                                        e.stopPropagation();
+                                        onAddFood(meal, Math.round((product.calories * product.quantity) / 100));
+                                    }}>+</button>
                                 </div>
                             </div>
                         ))
-                    )}
+                    )
+                ) : (
+                    <p className="placeholder-text">No frequent foods available</p> // или другой JSX-код
+                )}
                 </div>
 
                 <button className="done-btn" onClick={onClose}>Done</button>
@@ -155,7 +201,25 @@ const FoodSelection = ({ meal, onClose }) => {
                     <FoodDetailsModal
                         product={selectedProduct}
                         onClose={() => setSelectedProduct(null)}
-                        onAdd={handleAddFood}
+                        onAdd={(product, quantity, unit) => {
+                            const newFood = {
+                                id: product.id || Date.now(),
+                                product_name: product.product_name,
+                                quantity: Number(quantity),
+                                unit,
+                                calories: product.calories || 0,
+                                protein: product.protein || 0,
+                                fat: product.fat || 0,
+                                carbs: product.carbs || 0,
+                            };
+
+                            setAddedFoods((prevFoods) => [...prevFoods, newFood]);
+
+                            // ✅ Обновляем калории в `MealTracker`
+                            onAddFood(meal, Math.round((product.calories * Number(quantity)) / 100));
+
+                            setSelectedProduct(null);
+                        }}
                     />
                 )}
 
@@ -163,6 +227,13 @@ const FoodSelection = ({ meal, onClose }) => {
                     <AddedFoodsModal
                         foods={addedFoods}
                         onClose={() => setShowAddedModal(false)}
+                    />
+                )}
+
+                {showCustomFoodModal && (
+                    <CustomFoodModal
+                        onSave={handleSaveCustomFood}
+                        onClose={() => setShowCustomFoodModal(false)}
                     />
                 )}
             </div>

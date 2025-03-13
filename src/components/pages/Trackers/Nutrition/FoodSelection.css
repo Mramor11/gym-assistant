@@ -1,5 +1,4 @@
 /* Затемнение фона */
-/* Затемнение фона */
 .food-selection-overlay {
     position: fixed;
     top: 0;
@@ -40,7 +39,6 @@
         opacity: 1;
     }
 }
-
 
 /* Заголовок */
 .food-header {

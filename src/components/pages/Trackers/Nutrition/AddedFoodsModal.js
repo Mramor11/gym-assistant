@@ -11,25 +11,25 @@ const AddedFoodsModal = ({ foods, onClose, onDelete, onEdit }) => {
                 </div>
 
                 <ul className="foods-list">
-                    {foods.map((food, index) => (
-                        <li key={index} className="food-item" onClick={() => onEdit(food, index)}>
-                            <div>
-                                <p>{food.product_name || "Unknown Product"}</p> {/* ✅ Отображаем название */}
-                                <span>{food.quantity} {food.unit}</span>
-                            </div>
-                            <div className="actions">
-                <span>
-                    {/* ✅ Перерасчет калорий */}
-                    {(food.calories * (food.quantity / 100)).toFixed(2)} kcal
-                </span>
-                                <button className="delete-btn" onClick={(e) => {
-                                    e.stopPropagation();
-                                    onDelete(index);
-                                }}>✖
-                                </button>
-                            </div>
-                        </li>
-                    ))}
+                    {foods.length === 0 ? (
+                        <p className="placeholder-text">No added foods</p>
+                    ) : (
+                        foods.map((food, index) => (
+                            <li key={index} className="food-item" onClick={() => onEdit(food, index)}>
+                                <div>
+                                    <p>{food.product_name}</p>
+                                    <span>{food.quantity} {food.unit}</span>
+                                </div>
+                                <div className="actions">
+                                    <span>{food.calories} kcal</span>
+                                    <button className="delete-btn" onClick={(e) => {
+                                        e.stopPropagation();
+                                        onDelete(index);
+                                    }}>✖</button>
+                                </div>
+                            </li>
+                        ))
+                    )}
                 </ul>
             </div>
         </div>

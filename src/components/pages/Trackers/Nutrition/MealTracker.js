@@ -1,25 +1,29 @@
 import React, { useState } from "react";
 import "./MealTracker.css";
-import FoodSelection from "./FoodSelection"; // Импортируем модальное окно
+import { nutritionGoals } from "../../../../constants/nutritionGoals";
+import FoodSelection from "./FoodSelection";
 
 const meals = [
-    { name: "Breakfast", calories: 922, icon: "☕️" },
-    { name: "Lunch", calories: 1229, icon: "🍲" },
-    { name: "Dinner", calories: 768, icon: "🥗" },
-    { name: "Snacks", calories: 154, icon: "🍎" },
+    { name: "Breakfast", icon: "☕️" },
+    { name: "Lunch", icon: "🍲" },
+    { name: "Dinner", icon: "🥗" },
+    { name: "Snacks", icon: "🍎" },
 ];
 
 const MealTracker = () => {
     const [selectedMeal, setSelectedMeal] = useState(null);
+    const [mealData, setMealData] = useState({
+        Breakfast: 0,
+        Lunch: 0,
+        Dinner: 0,
+        Snacks: 0,
+    });
 
-    // Функция открытия модального окна
-    const openFoodSelection = (meal) => {
-        setSelectedMeal(meal);
-    };
-
-    // Функция закрытия модального окна
-    const closeFoodSelection = () => {
-        setSelectedMeal(null);
+    const handleAddFood = (meal, calories) => {
+        setMealData((prev) => ({
+            ...prev,
+            [meal]: prev[meal] + calories,
+        }));
     };
 
     return (
@@ -30,20 +34,25 @@ const MealTracker = () => {
                         <div className="meal-icon">{meal.icon}</div>
                         <div className="meal-info">
                             <h4>{meal.name}</h4>
-                            <p>0 / {meal.calories} kcal</p>
+                            <p>{mealData[meal.name]} / {nutritionGoals[meal.name]} kcal</p>
                         </div>
                         <button
                             className="meal-add"
-                            onClick={() => openFoodSelection(meal.name)}
+                            onClick={() => setSelectedMeal(meal.name)}
                         >
-                            <img src={`${process.env.PUBLIC_URL}/icons/plus.svg`} alt="Add Meal"/>
+                            <img src={`${process.env.PUBLIC_URL}/icons/plus.svg`} alt="Add Meal" />
                         </button>
                     </div>
                 ))}
             </div>
 
-            {/* Модальное окно FoodSelection */}
-            {selectedMeal && <FoodSelection meal={selectedMeal} onClose={closeFoodSelection} />}
+            {selectedMeal && (
+                <FoodSelection
+                    meal={selectedMeal}
+                    onClose={() => setSelectedMeal(null)}
+                    onAddFood={handleAddFood} // ✅ Передаем функцию обновления
+                />
+            )}
         </div>
     );
 };
